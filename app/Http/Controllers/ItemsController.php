@@ -48,9 +48,9 @@ class ItemsController extends Controller
 
     public function destroy($id){
         $item = Item::findOrFail($id);
-        $activeUser =  Auth::user();
+        $active_user =  Auth::user();
 
-        if($item['user_id'] == $activeUser['id']){
+        if($item['user_id'] == $active_user['id']){
             $item->delete();   
             return response()->json([
                 'delete' => true

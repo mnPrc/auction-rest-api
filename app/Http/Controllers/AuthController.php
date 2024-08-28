@@ -38,8 +38,8 @@ class AuthController extends Controller
     }
 
     public function getActiveUser(){
-        $activeUser = Auth::user();
-        return response()->json($activeUser);
+        $active_user = Auth::user();
+        return response()->json($active_user);
     }
 
     public function logout(){

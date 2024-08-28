@@ -19,7 +19,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->string('name');
             $table->string('description');
-            $table->integer('start_price');
+            $table->integer('current_price');
             $table->integer('buy_now_price');
             $table->string('payment');
             $table->string('delivery');

@@ -26,7 +26,7 @@ class CreateItemRequest extends FormRequest
             'user_id' => 'required|integer',
             'name' => 'required|string',
             'description' => 'required|string|max:255',
-            'start_price' => 'required|numeric|min:1',
+            'current_price' => 'required|numeric|min:1',
             'buy_now_price' => ['required', 'numeric', new BuyNowPriceBiggerThanStartPrice($this->start_price)],
             'payment' => 'required',
             'delivery' => 'required',

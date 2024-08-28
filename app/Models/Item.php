@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'user_id',
         'name',
         'description',
-        'start_price',
+        'current_price',
         'buy_now_price',
         'payment',
         'delivery',
@@ -26,6 +28,10 @@ class Item extends Model
 
     public function buyer(){
         return $this->hasOne(User::class, 'buyer_id');
+    }
+
+    public function offers(){
+        return $this->hasMany(Offer::class);
     }
 }
 
