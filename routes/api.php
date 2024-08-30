@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemsController;
 use App\Http\Controllers\OffersController;
+use App\Http\Controllers\WishlistsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,8 +22,12 @@ Route::controller(ItemsController::class)->group(function() {
 });
 
 Route::controller(OffersController::class)->group(function() {
-    Route::post('items/{id}/bid', 'bidOnItem')->middleware('auth');
-    Route::post('items/{id}/buy-now', 'buyItem')->middleware('auth');
-    Route::get('items/{id}/check-status', 'checkAuctionStatus')->middleware('auth');
-    Route::post('items/{id}/complete-auction', 'completeAuction')->middleware('auth');
+    Route::post('/items/{id}/bid', 'bidOnItem')->middleware('auth');
+    Route::post('/items/{id}/buy-now', 'buyItem')->middleware('auth');
+});
+
+Route::controller(WishlistsController::class)->group(function() {
+    Route::get('/wishlist', 'index');
+    Route::post('/items/{id}/wishlist', 'store')->middleware('auth');
+    Route::delete('/wishlist/{id}', 'destroy')->middleware('auth');
 });

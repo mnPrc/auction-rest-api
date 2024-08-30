@@ -11,7 +11,9 @@ use Illuminate\Http\Request;
 class ItemsController extends Controller
 {
     public function index(Request $request){
-        $query = Item::with('user');
+        $query = Item::with(['user', 'images' => function($query){
+            $query->take(1);
+        }]);
 
         if($search = $request->input('search')){
             $query->where(function ($q) use ($search) {
@@ -33,15 +35,23 @@ class ItemsController extends Controller
 
     public function store(CreateItemRequest $request){
         $data = $request->validated();
-        $data['end_time'] = Carbon::now()->addDays($data['end_time']);
+        $data['end_time'] = Carbon::now()->addDays((int)$data['end_time']);
 
         $item = Item::create($data);
 
-        return response()->json($item);
+        //Create images folder in storage/app/public if you don't have it
+        if($request->hasFile('images')){
+            foreach($request->file('images') as $image){
+                $path = $image->store('images', 'public');
+                $item->images()->create(['image_path' => $path]);
+            }
+        }
+
+        return response()->json($item->load('images'));
     }
 
     public function show($id){
-        $item = Item::with('user')->findOrFail($id);
+        $item = Item::with('user', 'images')->findOrFail($id);
         
         return response()->json($item);
     }
@@ -50,13 +60,13 @@ class ItemsController extends Controller
         $item = Item::findOrFail($id);
         $active_user =  Auth::user();
 
-        if($item['user_id'] == $active_user['id']){
+        if($item['user_id'] == $active_user['id'] && $item['buyer_id'] == 0){
             $item->delete();   
             return response()->json([
                 'delete' => true
             ]);
         }else{
-            return response()->json(['message' => 'Not your item']);
+            return response()->json(['message' => 'Cannot delete item']);
         }
     }
 }

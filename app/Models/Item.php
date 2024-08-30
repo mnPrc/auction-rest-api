@@ -33,5 +33,13 @@ class Item extends Model
     public function offers(){
         return $this->hasMany(Offer::class);
     }
+
+    public function images(){
+        return $this->hasMany(Image::class);
+    }
+
+    public function wishlists(){
+        return $this->hasMany(Wishlist::class);
+    }
 }
 

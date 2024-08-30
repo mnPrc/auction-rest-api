@@ -30,7 +30,9 @@ class CreateItemRequest extends FormRequest
             'buy_now_price' => ['required', 'numeric', new BuyNowPriceBiggerThanStartPrice($this->start_price)],
             'payment' => 'required',
             'delivery' => 'required',
-            'end_time' => 'required|integer|min:1|max:30'
+            'end_time' => 'required|integer|min:1|max:30',
+            'images' => 'required|array|min:1|max:10',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 }
