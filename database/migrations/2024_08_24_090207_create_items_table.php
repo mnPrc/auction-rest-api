@@ -21,8 +21,6 @@ return new class extends Migration
             $table->string('description');
             $table->integer('current_price');
             $table->integer('buy_now_price');
-            $table->string('payment');
-            $table->string('delivery');
             $table->dateTime('end_time');
             $table->foreignId('buyer_id')
                 ->nullable()

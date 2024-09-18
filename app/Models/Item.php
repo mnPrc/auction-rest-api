@@ -15,8 +15,6 @@ class Item extends Model
         'description',
         'current_price',
         'buy_now_price',
-        'payment',
-        'delivery',
         'end_time',
         'buyer_id',
         'buy_price',
